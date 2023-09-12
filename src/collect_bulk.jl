@@ -130,7 +130,3 @@ function collect_bulk(userID)
     results = py"collect"(user)
 end
 
-collect_bulk(999);
-
-u = user_from_id(999)
-u[:keywords]["keywords"]

@@ -1,7 +1,7 @@
-using MakeWebJSON
+using IOM_Collector
 using Test
 
-@testset "MakeWebJSON.jl" begin
+@testset "IOM_Collector.jl" begin
     # Write your tests here.
     # Test 1
 end

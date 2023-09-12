@@ -130,4 +130,3 @@ function collect_day(userID)
 end
 
 
-collect_day(999)
