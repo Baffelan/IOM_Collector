@@ -4,7 +4,7 @@ using WritePostgres
 
 # Conda.pip_interop(true)
 # Conda.pip("install", "eventregistry")
-function collect_bulk(userID)
+function collect_bulk(userID,newsapikey,backhost,backdb,backuser,backpassword)
     py"""
     from eventregistry import *
     import json
@@ -22,7 +22,7 @@ function collect_bulk(userID)
     import datetime as dt
 
     def query_api(user):
-        er = EventRegistry(apiKey = os.getenv("NEWSAPIKEY"))
+        er = EventRegistry(apiKey = $(newsapikey))
         usUri = er.getLocationUri(user["keywords"]["location"])
         q = QueryArticlesIter(
             keywords = QueryItems.OR(user["keywords"]["keywords"]),
@@ -45,10 +45,10 @@ function collect_bulk(userID)
     def write_results(data, table, user):
 
         connection = psycopg2.connect(
-            host=os.getenv("IOMBCKHOST"),
-            database=os.getenv("IOMBCKDB"),
-            user=os.getenv("IOMBCKUSER"),
-            password=os.getenv("IOMBCKPASSWORD"))
+            host=$(backhost),
+            database=$(backdb),
+            user=$(backuser),
+            password=$(backpassword))
         try:
             # create connection
             print("111")
