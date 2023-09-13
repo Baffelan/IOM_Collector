@@ -1,9 +1,14 @@
 module IOM_Collector
+    using PyCall
+    using Conda
+    using WritePostgres
+    using Dates
+    
 
-    include("collect_bulk.jl")
+    include("collector.jl")
     include("collect_day.jl")
 
-    export collect_bulk
+    export collector
     export collect_day
     
 end
