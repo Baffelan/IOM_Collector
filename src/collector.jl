@@ -61,7 +61,8 @@ function collector(userID,start_day,newsapikey,backhost,backdb,backuser,backpass
             tables = "INSERT INTO {}{}, collectionDate, user_ID, collection_ID, keywords".format(table, tuple(f.keys())).replace("'","").replace(")","")+")"
             kwarray = json.dumps(user["keywords"]["keywords"]).replace("[","{").replace("]","}")
             values = " VALUES("+(len(f.values())-1)*"%s, "+"%s, '{}','{}','{}','{}')".format(date.today(),user["userid"],user["collectionid"],kwarray)
-            query = tables + values
+            conflict = " ON conflict do NOTHING"
+            query = tables + values + conflict
 
             # create an insert list
             
