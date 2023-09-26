@@ -10,5 +10,5 @@ module IOM_Collector
 
     export collector
     export collect_day
-    
-end
+end    
+#collector(999, Date("2023-08-28"), ENV["NEWSAPIKEY"],ENV["IOMBCKHOST"],ENV["IOMBCKDB"],ENV["IOMBCKUSER"],ENV["IOMBCKPASSWORD"])
