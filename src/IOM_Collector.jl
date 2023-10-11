@@ -1,7 +1,7 @@
 module IOM_Collector
     using PyCall
     using Conda
-    using WritePostgres
+    using IOM_WritePostgres
     using Dates
     
 
