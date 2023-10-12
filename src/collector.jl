@@ -1,7 +1,8 @@
 
-# Conda.pip_interop(true)
+# Conda.pip_interop(true) 
 # Conda.pip("install", "eventregistry")
 function collector(userID,start_day,newsapikey,backhost,backdb,backuser,backpassword)
+    check_python_packages()
     py"""
     from eventregistry import *
     import json
