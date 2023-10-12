@@ -4,7 +4,7 @@ function check_python_packages()
     py"""
     import sys
     def req(checked_package_names):    
-        return [p in sys.modules for p in checked_package_names]
+        return [p not in sys.modules for p in checked_package_names]
     """
     required = py"req"(checked_package_names)
     Conda.pip_interop(true) 
@@ -17,3 +17,4 @@ end
 
 check_python_packages()
 
+py"True"
