@@ -14,7 +14,3 @@ function check_python_packages()
     end
     return nothing
 end
-
-check_python_packages()
-
-py"True"
