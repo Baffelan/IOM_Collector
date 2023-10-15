@@ -1,0 +1,3 @@
+function action()
+    "getArticles"
+end
