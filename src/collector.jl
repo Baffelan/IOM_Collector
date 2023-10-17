@@ -2,7 +2,7 @@
 # Conda.pip_interop(true) 
 # Conda.pip("install", "eventregistry")
 function collector(userID,start_day,newsapikey,backhost,backdb,backuser,backpassword)
-    check_python_packages()
+    # check_python_packages() # commented out as was not useful on Connor's pc, results may vary
     py"""
     from eventregistry import *
     import json
@@ -37,6 +37,7 @@ function collector(userID,start_day,newsapikey,backhost,backdb,backuser,backpass
                     #sortBy = "date", 
                     maxItems = 15000, 
                     returnInfo = ReturnInfo(articleInfo=ArticleInfoFlags(socialScore=True, concepts=True, categories=True)))
+        
         return(results)
     # end
 
@@ -62,9 +63,9 @@ function collector(userID,start_day,newsapikey,backhost,backdb,backuser,backpass
             tables = "INSERT INTO {}{}, collectionDate, user_ID, collection_ID, keywords".format(table, tuple(f.keys())).replace("'","").replace(")","")+")"
             kwarray = json.dumps(user["keywords"]["keywords"]).replace("[","{").replace("]","}")
             values = " VALUES("+(len(f.values())-1)*"%s, "+"%s, '{}','{}','{}','{}')".format(date.today(),user["userid"],user["collectionid"],kwarray)
+            
             conflict = " ON conflict do NOTHING"
             query = tables + values + conflict
-
             # create an insert list
             
             def format_dicts(ds):
@@ -74,21 +75,20 @@ function collector(userID,start_day,newsapikey,backhost,backdb,backuser,backpass
                     elif isinstance(v, list):
                         ds[k] = [json.dumps(d) if isinstance(d, dict) else d for d in ds[k]]
                 return tuple(ds.values())
-
+            
+            
             records =  [format_dicts(ds) for ds in data]
-
+            
 
             # Execute query 
+
             for r in records:
-                try:
-                    cursor.execute(query, r)
-                except psycopg2.errors.UniqueViolation:
-                    connection.rollback()
-                    print("Found Duplicate uri")
+                
+                cursor.execute(query, r)
+
             
             # commit changes
             connection.commit()
-        
             # print a message
             print("rows inserted successfully")
 
@@ -104,12 +104,16 @@ function collector(userID,start_day,newsapikey,backhost,backdb,backuser,backpass
             print("connection closed")
 
     #end
+    def rem_userhaspermissions(art):
+        del art["userHasPermissions"] # This key seems to be an undocumented value that can be returned very rarely by the eventregistry api 
+        return(art)
 
     def collect(user):
         print(user)
         results = query_api(user)
-        l = [art for art in results]
 
+        l = [art if "userHasPermissions" not in art else rem_userhaspermissions(art) for art in results]
+        
 
         if len(l)>0:
             print(l[0]["date"])
