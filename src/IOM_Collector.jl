@@ -7,7 +7,7 @@ module IOM_Collector
 
     include("collector.jl")
     include("collect_day.jl")
-    include("check_python_packages.jl")
+    # include("check_python_packages.jl")
 
     export collector
     export collect_day

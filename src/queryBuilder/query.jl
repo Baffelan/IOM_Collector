@@ -22,25 +22,21 @@ function query(keywords, dates)
     
 end
 
-q = query(["a", "great", "keyword"], [Date("2023-01-01"), Date("2023-01-02")])
+# q = query(["a", "great", "keyword"], [Date("2023-01-01"), Date("2023-01-02")])
 
-q = Dict("query"=>Dict("keyword"=> "Musk"), "apikey"=>ENV["NEWSAPIKEY"])
+# q = Dict("query"=>Dict("keyword"=> "Musk"), "apikey"=>ENV["NEWSAPIKEY"])
 
-using HTTP
-using JSON
-const URL = "http://eventregistry.org/api/v1/article/getArticles"
+# using HTTP
+# using JSON
+# const URL = "http://eventregistry.org/api/v1/article/getArticles"
 
-headers = Dict("Content-Type"=> "application/json","apiKey"=>ENV["NEWSAPIKEY"])
+# headers = Dict("Content-Type"=> "application/json","apiKey"=>ENV["NEWSAPIKEY"])
 
-function make_API_call(url,q)
-    try
-        response = HTTP.get(url, JSON.json(headers), q)
-        return String(response.body)
-    catch e
-        return "Error occurred : $e"
-    end
-end
-
-
-response = make_API_call(URL,JSON.json(q))
-println(response)
+# function make_API_call(url,q)
+#     try
+#         response = HTTP.get(url, JSON.json(headers), q)
+#         return String(response.body)
+#     catch e
+#         return "Error occurred : $e"
+#     end
+# end
